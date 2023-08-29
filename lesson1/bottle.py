@@ -13,15 +13,21 @@
 
 
 class Bottle:
+    # Создаём конструктор - инициализатор полей класса.
+    # Нотации (указания типов после двоеточия) нужны, чтобы редактор кода подсвечивал неправильные типы.
+    # Писать нотации необязательно, хотя иногда они здорово облегчают понимание.
+    def __init__(self, color: str, volume: float):
+        self.color = color
+        self.volume = volume
 
-    def __init__(self, color, volume):
-        ...
 
-
+# Создаём экземпляры класса с полями, которые определили в конструкторе __init__.
+# Т.к. значений по умолчанию в инициализаторе нет, то задаём все.
 bottle_1 = Bottle("Красная", 0.7)
-bottle_2 = ...
-bottle_3 = ...
+bottle_2 = Bottle("Белая", 0.3)
+bottle_3 = Bottle("Черная", 1.0)
 
+# Распечатываем поля color и volume для созданных экземпляров класса
 print(bottle_1.color, bottle_1.volume)  # Красная 0.7
 print(bottle_2.color, bottle_2.volume)  # Белая 0.3
 print(bottle_3.color, bottle_3.volume)  # Черная 1.0
