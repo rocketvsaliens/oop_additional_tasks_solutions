@@ -4,23 +4,83 @@
 - __init__(self, width, height): конструктор, принимающий ширину и высоту прямоугольника
 - area(self): метод, возвращающий площадь прямоугольника
 - perimeter(self): метод, возвращающий периметр прямоугольника
-- from_diagonal(cls, diagonal, aspect_ratio): класс-метод, принимающий диагональ прямоугольника и соотношение сторон и возвращающий объект класса Rectangle
+- from_diagonal(cls, diagonal, aspect_ratio): класс-метод, принимающий диагональ прямоугольника и соотношение сторон
+и возвращающий объект класса Rectangle
 - is_square(width, height): статический метод, принимающий ширину и высоту прямоугольника и возвращающий True,
 если это квадрат, и False в противном случае
 """
 
+# Импортируем вычисление квадратного корня для вычисления сторон по диагонали и соотношению сторон
+# Если не хочется делать импорт, можно просто возвести значение в степень 0.5 ;)
+from math import sqrt
+
 
 class Rectangle:
-    pass
+    def __init__(self, width, height):
+        """Конструктор-инициализатор экземпляра класса, принимающий ширину и высоту прямоугольника"""
+        if type(width) in (int, float) and type(height) in (int, float):  # делаем проверку на тип числа
+            self.width = width
+            self.height = height
+        else:
+            raise AttributeError('Ширина и высота должны быть числами')  # если это не число, будет исключение
+
+    def area(self) -> float or int:
+        """Возвращает площадь прямоугольника с округлением до двух знаков после точки"""
+        return round(self.width * self.height, 2)
+
+    def perimeter(self) -> float or int:
+        """Возвращает периметр прямоугольника с округлением до двух знаков после точки"""
+        return round((self.width + self.height) * 2, 2)
+
+    @classmethod
+    def from_diagonal(cls, diagonal, aspect_ratio):
+        """
+        Принимает диагональ прямоугольника и соотношение сторон и возвращает объект класса Rectangle
+        :param diagonal: диагональ прямоугольника
+        :param aspect_ratio: соотношение сторон в виде одного числа
+        """
+        # Обычно соотношение сторон или aspect_ratio задаётся двумя числами в виде дроби, например, 16/9.
+        # Но поскольку в данном случае в aspect_ratio нам приходит только одно число,
+        # то можно записать, например, aspect_ratio = 2 в виде 2/1.
+        # Далее вспоминаем, что прямоугольник -- это два прямоугольных треугольника с общей диагональю
+        # (гипотенузой) и одинаковыми для обоих треугольников катетами (сторонами).
+        # Согласно теореме Пифагора, D ** 2 = x ^ 2 + y ^ 2, где D -- гипотенуза (диагональ), x и y -- катеты,
+        # т.е. стороны прямоугольника. Но мы знаем только соотношение, т.е. формула становится следующей:
+        # (a * N) ^ 2 + (b * N) ^2 = 102 ^ 2, где a и b -- это соотношение, а N -- некий отрезок,
+        # путём умножения которого на a и b можно получить длину катетов, т.е. сторон прямоугольника.
+        # Преобразовав исходную формулу, получаем расчёт:
+        # Катет 1: a * D / sqrt(a ^ 2 + b ^ 2)
+        # Катет 2: b * D / sqrt(a ^ 2 + b ^ 2)
+        # Так как b = 1 и 1 ^ 2 == 1, то b ^ 2 == 1 -- меняем в коде на единицу. b * D == 1 * D -- оставляем D.
+        width = aspect_ratio * diagonal / sqrt(aspect_ratio ** 2 + 1)
+        height = diagonal / sqrt(aspect_ratio ** 2 + 1)
+        return cls(width, height)  # вернёт экземпляр, где вместо cls подставится имя класса
+
+    @staticmethod
+    def is_square(width, height) -> bool:
+        """
+        Определяет, что фигура является квадратом, т.е. ширина равна высоте.
+        Возвращает True, если да, и False, если нет.
+        """
+        return width == height
 
 
-rectangle = Rectangle(4, 5)
-print(rectangle.area())  # 20
-print(rectangle.perimeter())  # 18
+if __name__ == '__main__':
+    # создаём экземпляр класса классическим способом
+    rectangle = Rectangle(4, 5)
+    # выводим площадь прямоугольника
+    print(rectangle.area())  # 20
+    # выводим периметр прямоугольника
+    print(rectangle.perimeter())  # 18
 
-rectangle2 = Rectangle.from_diagonal(5, 2)
-print(rectangle2.area())  # 10.0128
-print(rectangle2.perimeter())  # 13.42
+    # создаём экземпляр класса через метод класса from_diagonal
+    rectangle2 = Rectangle.from_diagonal(5, 2)
+    # выводим площадь прямоугольника
+    print(rectangle2.area())  # 10.0
+    # выводим периметр прямоугольника
+    print(rectangle2.perimeter())  # 13.42
 
-print(Rectangle.is_square(4, 4))  # True
-print(Rectangle.is_square(4, 5))  # False
+    # проверяем квадратность фигуры
+    # staticmethod позволяет вызывать метод класса как обычную функцию
+    print(Rectangle.is_square(4, 4))  # True
+    print(Rectangle.is_square(4, 5))  # False
