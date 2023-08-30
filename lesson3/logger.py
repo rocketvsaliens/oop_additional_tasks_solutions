@@ -8,8 +8,31 @@
 
 
 class Logger:
-    pass
+    """
+    Класс создает объект, который можно использовать
+    вместо with open(), чтобы автоматически закрывать файл.
+    """
+
+    def __init__(self, filename: str) -> None:
+        """
+        Конструктор-инициализатор экземпляра класса
+        :param filename: имя файла
+        """
+        self.filename = filename
+
+    def __call__(self, message: str):
+        """
+        Магический метод, который позволяет использовать объект класса Logger как функцию,
+        принимающую сообщение и записывающую его в файл
+        :param message: сообщение, которое будет записано в файл
+        """
+        with open(self.filename, 'a') as file:
+            file.write(message + '\n')  # перенос строки нужен, чтобы каждое сообщение начиналось с новой строки
 
 
-logger = Logger("log.txt")
-logger("This is a test message.")
+if __name__ == '__main__':
+    # создаём экземпляр класса (при этом файл log.txt создан не будет)
+    logger = Logger("log.txt")
+    # записываем сообщение в файл, который создаётся,
+    # как только мы вызываем экземпляр класса как функцию
+    logger("This is a test message.")

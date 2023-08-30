@@ -6,12 +6,30 @@
 и выводит время выполнения блока кода.
 """
 
+# импортируем time из модуля time -- время, выраженное в секундах с начала эпохи Unix (от 1 января 1970 года)
+from time import time
+
 
 class Timer:
-    pass
+    """Класс вычисляет время выполнения блока кода"""
+
+    def __enter__(self):
+        """Магический метод, который запускает таймер при помощи конструкции with"""
+        self.start_time = time()  # устанавливаем с помощью модуля time
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        """Магический метод, который останавливает таймер
+        и выводит время выполнения блока кода"""
+        self.end_time = time()
+        self.elapsed_time = self.end_time - self.start_time
+        return self.elapsed_time  # возвращаем время выполнения кода
 
 
-with Timer() as timer:
-    # блок кода
-
-print("Execution time:", timer.elapsed_time)
+if __name__ == '__main__':
+    # создаём экземпляр класса Timer и запускаем его
+    with Timer() as timer:
+        for i in range(1001):  # блок кода может быть произвольным
+            print(i // 2)
+    # выводим время выполнения блока кода
+    print("Время выполнения блока кода:", timer.elapsed_time)
