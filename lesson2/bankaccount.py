@@ -39,14 +39,22 @@ class BankAccount:
 
 
 if __name__ == '__main__':
+    # создаём экземпляр класса
     account = BankAccount(1000)
+    # выводим баланс счёта
     print(account.balance)  # 1000
 
+    # пополняем счёт
     account.deposit(500)
+    # снова выводим баланс
     print(account.balance)  # 1500
 
+    # снимаем средства со счёта
     account.withdraw(200)
+    # и снова выводим баланс
     print(account.balance)  # 1300
 
+    # закрываем счёт
     account.close()
+    # поздравляем, вы ограблены! )))
     print(account.balance)  # 0
