@@ -13,14 +13,49 @@
 
 
 class Person:
-    pass
+    """Класс, представляющий человека"""
+
+    def __init__(self, name: str, age: int) -> None:
+        """Конструктор, принимающий имя человека и его возраст"""
+        self._name = name
+        self._age = age
+
+    def get_name(self) -> str:
+        """Метод, который возвращает имя человека"""
+        return self._name
+
+    def get_age(self) -> int:
+        """Метод, который возвращает возраст человека"""
+        return self._age
 
 
+class Student(Person):
+    """Класс Student, наследующийся от класса Person, представляющий студента"""
+
+    def __init__(self, name: str, age: int, major: str) -> None:
+        """Конструктор, принимающий имя студента, его возраст и основной предмет"""
+        # за именем и возрастом обращаемся в инициализатор родительского класса
+        super().__init__(name, age)
+        # добавляем основной предмет для студента
+        self.major = major
+
+    def get_major(self) -> str:
+        """Метод, который возвращает основной предмет студента"""
+        return self.major
+
+
+# Создаём человека
 person = Person("Иван", 25)
+# Выводим имя человека
 print(person.get_name())  # Иван
+# Выводим возраст человека
 print(person.get_age())  # 25
 
+# Создаём человека-студента
 student = Student("Мария", 20, "математика")
+# Выводим имя студента
 print(student.get_name())  # Мария
+# Выводим возраст студента
 print(student.get_age())  # 20
+# Выводим основной предмет студента
 print(student.get_major())  # математика

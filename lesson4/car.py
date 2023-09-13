@@ -14,15 +14,62 @@
 
 
 class Car:
-    pass
+    """Класс Car, представляющий автомобиль"""
+
+    def __init__(self, make: str, model: str, year: int) -> None:
+        """Конструктор, принимающий марку автомобиля, модель и год выпуска"""
+        self._make = make
+        self._model = model
+        self._year = year
+
+    def get_make(self) -> str:
+        """Метод, который возвращает марку автомобиля"""
+        return self._make
+
+    def get_model(self) -> str:
+        """Метод, который возвращает модель автомобиля"""
+        return self._model
+
+    def get_year(self) -> int:
+        """Метод, который возвращает год выпуска автомобиля"""
+        return self._year
 
 
+class ElectricCar(Car):
+    """Класс ElectricCar, наследующийся от класса Car, представляющий электромобиль"""
+
+    def __init__(self, make: str, model: str, year: int, battery_size: int) -> None:
+        """Конструктор, принимающий марку электромобиля, модель, год выпуска и размер батареи"""
+        # Марку, модель и год берём из родительского класса
+        super().__init__(make, model, year)
+        # Дополнительно принимаем размер (ёмкость) батареи
+        self.battery_size = battery_size
+
+    def get_battery_size(self) -> int:
+        """Метод, который возвращает размер батареи электромобиля"""
+        return self.battery_size
+
+
+# Ключевое слово super() используется в классе ElectricCar для вызова конструктора родительского класса Car.
+# В данном случае, конструктор класса ElectricCar принимает дополнительный параметр battery_size,
+# который относится к электромобилю. Однако перед инициализацией этого параметра
+# мы вызываем конструктор родительского класса с помощью  super().__init__(make, model, year).
+# Это позволяет нам использовать и сохранить значения make, model и year из родительского класса Car,
+# а затем инициализировать battery_size в классе ElectricCar.
+# Таким образом мы можем использовать функциональность родительского класса
+# и добавить дополнительные атрибуты и методы в дочерний класс.
+
+# Создаём экземпляр класса Car
 car = Car("Tesla", "Model S", 2022)
+# Выводим параметры машины при помощи методов класса
 print(car.get_make())  # Tesla
 print(car.get_model())  # Model S
 print(car.get_year())  # 2022
 
+# Создаём экземпляр класса ElectricCar, наследуемого от Car
 electric_car = ElectricCar("Tesla", "Model S", 2022, 100)
+# Выводим параметры машины при помощи методов класса
+# Все параметры, кроме ёмкости батареи, подтягиваются из родительского класса
 print(electric_car.get_make())  # Tesla
 print(electric_car.get_model())  # Model S
 print(electric_car.get_year())  # 2022
