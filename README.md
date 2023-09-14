@@ -10,3 +10,4 @@
 - [Магические методы](https://github.com/rocketvsaliens/oop_additional_tasks_solutions/tree/main/lesson3)
 - [Наследование](https://github.com/rocketvsaliens/oop_additional_tasks_solutions/tree/main/lesson4)
 - [Наследование, ч.2](https://github.com/rocketvsaliens/oop_additional_tasks_solutions/tree/main/lesson5)
+- [Коллекции __ slots __](https://github.com/rocketvsaliens/oop_additional_tasks_solutions/tree/main/lessson6)
