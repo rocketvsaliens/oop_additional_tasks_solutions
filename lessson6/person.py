@@ -1,34 +1,54 @@
 """
 Напишите класс Person, представляющий человека, имеющий следующие атрибуты:
-
 - __slots__ = ('name', 'age'): список атрибутов, доступных объекту.
 
 Напишите класс Employee, наследующийся от класса Person, представляющий сотрудника, имеющий следующие атрибуты:
-
 - __slots__ = ('salary',): список атрибутов, доступных объекту.
 
 Напишите класс Manager, наследующийся от класса Employee, представляющий менеджера, имеющий следующие атрибуты:
-
 - __slots__ = ('bonus',): список атрибутов, доступных объекту.
 """
 
 
 class Person:
-    pass
+    """Класс Person, представляющий человека"""
+    __slots__ = ('name', 'age')  # список атрибутов, доступных объекту
+    # __slots__ - это атрибут класса, который определяет
+    # список локальных атрибутов (полей) экземпляра класса.
+    # Он позволяет определить, какие атрибуты могут быть у экземпляров класса.
+    # При попытке создать другие поля возникнет исключение AttributeError
 
 
-person = Person()
-person.name = "John"
-person.age = 30
-person.salary = 5000  # raises AttributeError
+class Employee(Person):
+    """Класс, наследующийся от класса Person, представляющий сотрудника"""
+    __slots__ = ('salary',)  # список атрибутов, доступных объекту
+    # Запятая в строке __slots__ = ('salary',)  говорит о том,
+    # что 'salary' является кортежем из одного элемента.
 
-employee = Employee()
-employee.name = "Jane"
-employee.age = 25
-employee.salary = 5000
 
-manager = Manager()
-manager.name = "Bob"
-manager.age = 40
-manager.salary = 10000
-manager.bonus = 5000
+class Manager(Employee):
+    """Класс, наследующийся от класса Employee, представляющий менеджера"""
+    __slots__ = ('bonus',)  # список атрибутов, доступных объекту
+
+    # Если родительский и дочерний классы имеет свои атрибуты __slots__,
+    # то у экземпляра дочернего класса можно создавать только те атрибуты,
+    # которые есть в родительской и дочерней коллекции
+
+
+# Проверяем. Если закомментировать строку с AttributeError, никаких сообщений быть не должно.
+if __name__ == '__main__':
+    person = Person()  # создаём экземпляр класса Person
+    person.name = "John"
+    person.age = 30
+    person.salary = 5000  # AttributeError: 'Person' object has no attribute 'salary'
+
+    employee = Employee()  # создаём экземпляр класса Employee
+    employee.name = "Jane"
+    employee.age = 25
+    employee.salary = 5000
+
+    manager = Manager()  # создаём экземпляр класса Manager
+    manager.name = "Bob"
+    manager.age = 40
+    manager.salary = 10000
+    manager.bonus = 5000

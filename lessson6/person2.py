@@ -1,35 +1,51 @@
 """
 Напишите класс Person2, представляющий человека, имеющий следующие атрибуты:
-
 - __slots__ = ('name', 'age'): список атрибутов, доступных объекту.
 
 Напишите класс Employee2, наследующийся от класса Person2, представляющий сотрудника, имеющий следующие атрибуты:
-
 - __slots__ = ('salary',): список атрибутов, доступных объекту.
 
 Напишите класс Manager2, наследующийся от класса Employee2, представляющий менеджера, имеющий следующие атрибуты:
-
 - __slots__ = ('bonus', 'department'): список атрибутов, доступных объекту.
 """
 
 
 class Person2:
-    pass
+    __slots__ = ('name', 'age')  # список атрибутов, доступных объекту
+    # Он позволяет определить, какие атрибуты могут быть у экземпляров класса.
 
 
-person = Person2()
-person.name = "John"
-person.age = 30
-person.salary = 5000  # raises AttributeError
+class Employee2(Person2):
+    __slots__ = ('salary',)  # список атрибутов, доступных объекту
+    # Он позволяет определить, какие атрибуты могут быть у экземпляров класса.
+    # Запятая в строке __slots__ = ('salary',)  говорит о том,
+    # что 'salary' является кортежем из одного элемента.
 
-employee = Employee2()
-employee.name = "Jane"
-employee.age = 25
-employee.salary = 5000
 
-manager = Manager2()
-manager.name = "Bob"
-manager.age = 40
-manager.salary = 10000
-manager.bonus = 5000
-manager.department = "IT"
+class Manager2(Employee2):
+    __slots__ = ('bonus', 'department')  # список атрибутов, доступных объекту
+    # Он позволяет определить, какие атрибуты могут быть у экземпляров класса.
+
+    # Если родительский и дочерний классы имеет свои атрибуты __slots__,
+    # то у экземпляра дочернего класса можно создавать только те атрибуты,
+    # которые есть в родительской и дочерней коллекции
+
+
+# Проверяем. Если закомментировать строку с AttributeError, никаких сообщений быть не должно.
+if __name__ == '__main__':
+    person = Person2()  # создаём экземпляр класса Person2
+    person.name = "John"
+    person.age = 30
+    person.salary = 5000  # AttributeError: 'Person2' object has no attribute 'salary'
+
+    employee = Employee2()  # создаём экземпляр класса Employee2
+    employee.name = "Jane"
+    employee.age = 25
+    employee.salary = 5000
+
+    manager = Manager2()  # создаём экземпляр класса Manager2
+    manager.name = "Bob"
+    manager.age = 40
+    manager.salary = 10000
+    manager.bonus = 5000
+    manager.department = "IT"
